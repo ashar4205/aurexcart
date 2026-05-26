@@ -1,0 +1,236 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Google Fonts Import ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── CSS Custom Properties ───────────────────────────────────────────── */
+:root {
+  --blue-royal: #0052FF;
+  --blue-neon: #00D1FF;
+  --blue-glow: #00AAFF;
+  --black: #000000;
+  --white: #FFFFFF;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-blur: 12px;
+  --neon-glow: 0 0 10px #00D1FF, 0 0 20px #00D1FF, 0 0 40px #0052FF;
+}
+
+/* ─── Base Resets ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background-color: #000000;
+  color: #FFFFFF;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Glassmorphism Component ─────────────────────────────────────────── */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+  }
+
+  .glass-blue {
+    background: rgba(0, 82, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 209, 255, 0.15);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glass-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(0, 209, 255, 0.25);
+    box-shadow: 0 16px 48px rgba(0, 82, 255, 0.2);
+    transform: translateY(-4px);
+  }
+
+  /* ─── Neon Text ─────────────────────────────────────────────────────── */
+  .text-neon {
+    color: #00D1FF;
+    text-shadow: 0 0 10px rgba(0, 209, 255, 0.8), 0 0 20px rgba(0, 209, 255, 0.4);
+  }
+
+  .text-neon-subtle {
+    color: #00AAFF;
+    text-shadow: 0 0 8px rgba(0, 170, 255, 0.5);
+  }
+
+  /* ─── Neon Track (below product cards) ──────────────────────────────── */
+  .neon-track {
+    position: relative;
+    height: 2px;
+    background: rgba(0, 82, 255, 0.2);
+    overflow: hidden;
+    border-radius: 1px;
+  }
+
+  .neon-track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #00D1FF, #0052FF, transparent);
+    animation: neonSlide 2.5s linear infinite;
+    box-shadow: 0 0 8px #00D1FF, 0 0 16px #0052FF;
+  }
+
+  /* ─── Button Variants ────────────────────────────────────────────────── */
+  .btn-primary {
+    @apply relative overflow-hidden px-6 py-3 rounded-xl font-medium text-white
+           bg-gradient-to-r from-blue-500 to-blue-neon
+           transition-all duration-300 ease-out
+           hover:shadow-glow hover:scale-105 active:scale-95;
+  }
+
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 bg-white/10 translate-x-[-100%] transition-transform duration-500;
+  }
+
+  .btn-primary:hover::before {
+    @apply translate-x-[100%];
+  }
+
+  .btn-glass {
+    @apply glass px-6 py-3 rounded-xl font-medium text-white
+           transition-all duration-300 hover:bg-white/10 hover:border-blue-neon/40
+           active:scale-95;
+  }
+
+  .btn-order {
+    @apply relative overflow-hidden px-5 py-2.5 rounded-xl font-semibold text-sm
+           bg-gradient-to-r from-blue-royal to-blue-neon text-white
+           transition-all duration-300 hover:shadow-glow hover:scale-105 active:scale-95;
+  }
+
+  /* ─── Cart Button ─────────────────────────────────────────────────────── */
+  .cart-btn {
+    @apply relative p-3 rounded-full glass transition-all duration-300
+           hover:bg-blue-500/20 hover:border-blue-neon/50 hover:shadow-glow
+           active:scale-90;
+  }
+
+  .cart-btn:hover {
+    animation: cartPulse 0.3s ease-out;
+  }
+
+  /* ─── Input Fields ────────────────────────────────────────────────────── */
+  .input-glass {
+    @apply w-full px-4 py-3 rounded-xl glass text-white placeholder-white/30
+           border border-white/10 focus:border-blue-neon/50 focus:outline-none
+           focus:ring-2 focus:ring-blue-neon/20 transition-all duration-200
+           bg-white/5;
+  }
+
+  /* ─── Section Headings ────────────────────────────────────────────────── */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold font-display tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-white/50 text-base md:text-lg font-body;
+  }
+}
+
+/* ─── Scrollbar Styling ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: rgba(0, 82, 255, 0.4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 209, 255, 0.6); }
+
+/* ─── Selection ───────────────────────────────────────────────────────── */
+::selection { background: rgba(0, 82, 255, 0.4); color: white; }
+
+/* ─── Loading / Shutter Animation ────────────────────────────────────── */
+.shutter-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #000000 0%, #001133 50%, #000000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shutter-panel.exit {
+  animation: shutterExit 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes shutterExit {
+  0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  100% { clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); }
+}
+
+@keyframes neonSlide {
+  0% { transform: translateX(-200%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes cartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes glassShatter {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--dx, 0px), var(--dy, 50px)) rotate(var(--dr, 15deg)); opacity: 0; }
+}
+
+@keyframes glassRestore {
+  0% { transform: translate(var(--dx, 0px), var(--dy, 50px)) rotate(var(--dr, 15deg)); opacity: 0; }
+  100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+}
+
+/* ─── Light Theme Overrides ────────────────────────────────────────────── */
+.theme-light {
+  --glass-bg: rgba(0, 0, 0, 0.04);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  background: #F0F4FF;
+  color: #0A0A0A;
+}
+
+.theme-gradient-blue {
+  background: linear-gradient(135deg, #000033 0%, #000066 50%, #0000AA 100%);
+}
+
+.theme-gradient-purple {
+  background: linear-gradient(135deg, #0D001A 0%, #1A0033 50%, #000033 100%);
+}
+
+/* ─── Responsive Utilities ────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .section-title { font-size: 1.75rem; }
+  .glass-card { border-radius: 12px; }
+}
+
+/* ─── Focus Visible ───────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #00D1FF;
+  outline-offset: 2px;
+}
